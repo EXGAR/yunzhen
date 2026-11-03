@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云帧</title>
+  <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div>
+        <h1>云帧</h1>
+        <p class="lede">输入词语，选择循环动画，导出能在 WPS 和 PowerPoint 放映里播放的 GIF。</p>
+      </div>
+    </header>
+    <main class="workspace">
+      <section class="panel words" aria-label="词语">
+        <label for="words">词语</label>
+        <textarea id="words" spellcheck="false"></textarea>
+        <p class="help">一词一行。词后面的数字是权重，不是像素字号。数字越大，这个词越大。权重最高的用右侧最大字号，最低的用最小字号，其余按比例排在中间。不写数字时按 1 计算。例如「创新 8」。顿号或逗号分隔的一行会拆开。</p>
+        <p id="count"></p>
+        <div class="row">
+          <button id="reshuffle" type="button">重新排布</button>
+        </div>
+      </section>
+      <section class="panel stage-wrap" aria-label="预览">
+        <div class="stage-bar">
+          <button id="play" type="button">暂停预览</button>
+          <p class="help">预览和导出使用同一套运动。</p>
+        </div>
+        <div class="stage-frame">
+          <canvas id="stage" width="1280" height="720">词云预览</canvas>
+        </div>
+      </section>
+      <section class="panel controls" aria-label="动画参数">
+        <div class="field">
+          <label for="motion">动画形式</label>
+          <select id="motion"></select>
+        </div>
+        <p id="motion-hint"></p>
+        <div class="field">
+          <label for="direction">运行方向</label>
+          <select id="direction"></select>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="duration">一轮时长 <span id="duration-out" class="out">6.0 秒</span></label>
+            <input id="duration" type="range" min="2" max="16" step="0.5" value="6">
+          </div>
+          <div class="field">
+            <label for="amplitude">幅度 <span id="amplitude-out" class="out">1.0</span></label>
+            <input id="amplitude" type="range" min="0.4" max="1.8" step="0.1" value="1">
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="shape">形状</label>
+            <select id="shape"></select>
+          </div>
+          <div class="field">
+            <label for="palette">配色</label>
+            <select id="palette"></select>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="background">背景色</label>
+            <input id="background" type="color" value="#f3f5f7">
+          </div>
+          <div class="field">
+            <label for="gap">间距 <span id="gap-out" class="out">8</span></label>
+            <input id="gap" type="range" min="2" max="28" step="1" value="8">
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="min-size">最小字号 <span id="min-out" class="out">22</span></label>
+            <input id="min-size" type="range" min="14" max="48" step="1" value="22">
+          </div>
+          <div class="field">
+            <label for="max-size">最大字号 <span id="max-out" class="out">68</span></label>
+            <input id="max-size" type="range" min="36" max="120" step="1" value="68">
+          </div>
+        </div>
+        <label class="check" for="mixed-angle">
+          <input id="mixed-angle" type="checkbox">
+          少量短词竖排
+        </label>
+        <div class="field">
+          <label for="size">导出尺寸</label>
+          <select id="size"></select>
+        </div>
+        <div class="grid">
+          <div class="field">
+            <label for="fps">GIF 帧率</label>
+            <select id="fps"></select>
+          </div>
+          <div class="field">
+            <label for="colors">GIF 色数</label>
+            <select id="colors"></select>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="export-gif" type="button">导出 GIF</button>
+          <button id="export-svg" type="button">导出 SVG</button>
+        </div>
+        <div id="meter" class="meter" hidden><span id="meter-bar"></span></div>
+        <p id="status">GIF 使用全局色表、不透明背景和无限循环，方便放映软件播放。编辑页里通常不动，按放映才会动。SVG 动画只保证在浏览器里播放。</p>
+      </section>
+    </main>
+    <footer class="foot">
+      <p class="help">插入时选「图片」，不要选「视频」。背景色改成和幻灯片一样，边缘不会露白。1920 宽的 GIF 文件大，放映可能卡，优先用 960 或 1280。</p>
+    </footer>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
